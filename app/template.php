@@ -1,0 +1,93 @@
+<?php
+/**********************************************************
+ * Project:     api-practice
+ * File:        app/product/template.php
+ * Author:      Adrian <Adrian@tafe.wa.edu.au>
+ * Date:        2020-05-20
+ * Version:     1.0.0
+ * Description: Template page
+ **********************************************************/
+
+?>
+<!DOCTYPE HTML>
+<html lang="en-AU">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>TEMPLATE PAGE</title>
+
+    <!-- CSS required -->
+    <!-- Bootstrap 4.x -->
+    <link rel="stylesheet" href="/app/assets/bs/css/bootstrap.min.css">
+    <!-- FontAwesome 5.x -->
+    <link rel="stylesheet" href="/app/assets/fa/css/all.min.css">
+
+</head>
+<body>
+<!-- Navigation bar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="../">Demo APP</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+            aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="../">Home</a>
+            </li>
+            <li class="nav-item dropdown active">
+                <a class="nav-link dropdown-toggle" href="../product" id="navbarDropdown"
+                   role="button" data-toggle="dropdown" aria-haspopup="true"
+                   aria-expanded="false">
+                    Product  <span class="sr-only">(current)</span>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="../product/browse.php">Browse</a>
+                    <a class="dropdown-item" href="../product/create.php">Add</a>
+                </div>
+            </li>
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="../category" id="navbarDropdown"
+                   role="button" data-toggle="dropdown" aria-haspopup="true"
+                   aria-expanded="false">
+                    Category
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="../category/browse.php">Browse</a>
+                    <a class="dropdown-item" href="../category/create.php">Add</a>
+                </div>
+            </li>
+    </div>
+</nav>
+
+<!-- container -->
+<main role="main" class="container">
+
+    <div class="row">
+        <div class="col-sm">
+            <h1>Page Heading</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm">
+            <p>Page content in here</p>
+        </div>
+
+    </div>
+
+</main> <!-- end .container -->
+
+<!-- JavaScript that is required -->
+<script src="/app/assets/jquery/jquery-3.5.1.min.js"></script>
+<script src="/app/assets/popper/popper.min.js"></script>
+<script src="/app/assets/bs/js/bootstrap.min.js"></script>
+
+</body>
+</html>
+
