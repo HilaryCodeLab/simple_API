@@ -40,26 +40,26 @@
                 <a class="nav-link" href="../">Home</a>
             </li>
             <li class="nav-item dropdown active">
-                <a class="nav-link dropdown-toggle" href="../product" id="navbarDropdown"
+                <a class="nav-link dropdown-toggle" href="products" id="navbarDropdown"
                    role="button" data-toggle="dropdown" aria-haspopup="true"
                    aria-expanded="false">
                     Product  <span class="sr-only">(current)</span>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="../product/browse.php">Browse</a>
-                    <a class="dropdown-item" href="../product/create.php">Add</a>
+                    <a class="dropdown-item" href="products/browse.php">Browse</a>
+                    <a class="dropdown-item" href="products/create.php">Add</a>
                 </div>
             </li>
 
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="../category" id="navbarDropdown"
+                <a class="nav-link dropdown-toggle" href="categories" id="navbarDropdown"
                    role="button" data-toggle="dropdown" aria-haspopup="true"
                    aria-expanded="false">
                     Category
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="../category/browse.php">Browse</a>
-                    <a class="dropdown-item" href="../category/create.php">Add</a>
+                    <a class="dropdown-item" href="categories/browse.php">Browse</a>
+                    <a class="dropdown-item" href="categories/create.php">Add</a>
                 </div>
             </li>
     </div>

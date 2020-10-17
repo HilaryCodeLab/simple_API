@@ -7,8 +7,8 @@
  * Version:     1.0.0
  * Description:
  *******************************************************/
-include '../../config/Database.php';
-include '../../classes/Utils.php';
+include '../../api/config/Database.php';
+include '../../api/classes/Utils.php';
 ?>
 <!DOCTYPE HTML>
 <html lang="en-AU">
@@ -38,32 +38,10 @@ include '../../classes/Utils.php';
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="../">Home</a>
+            <li class="nav-item active">
+                <a class="nav-link" href="../../app/">Home <span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item dropdown active">
-                <a class="nav-link dropdown-toggle" href="../product" id="navbarDropdown"
-                   role="button" data-toggle="dropdown" aria-haspopup="true"
-                   aria-expanded="false">
-                    Product  <span class="sr-only">(current)</span>
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="../product/browse.php">Browse</a>
-                    <a class="dropdown-item" href="../product/create.php">Add</a>
-                </div>
-            </li>
-
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="../category" id="navbarDropdown"
-                   role="button" data-toggle="dropdown" aria-haspopup="true"
-                   aria-expanded="false">
-                    Category
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="../categories/browse.php">Browse</a>
-                    <a class="dropdown-item" href="../categories/create.php">Add</a>
-                </div>
-            </li>
+        </ul>
     </div>
 </nav>
 
@@ -79,7 +57,7 @@ include '../../classes/Utils.php';
     <!--check for category id-->
     <?php
 
-    $message =[];
+    $messages =[];
     if(isset($_GET['id'])){
         $id = isset($_GET['id'])?$_GET['id']:die('Error: Record Id Not found');
 
@@ -87,7 +65,6 @@ include '../../classes/Utils.php';
 
     try {
         $query = "SELECT id, code, name, description, created_at, updated_at FROM cc_store.categories WHERE id = :ID LIMIT 0,1;";
-
         $database = new Database();
         $conn = $database->getConnection();
         $stmt = $conn->prepare($query);
@@ -96,7 +73,7 @@ include '../../classes/Utils.php';
         $row = $stmt->fetch(PDO::FETCH_OBJ);
 
         if(!$row){
-            $message[] = ['Error'=>'no record found'];
+            $messages[] = ['Error'=>'no record found'];
         }
         else{
             $id = Utils::sanitize($row->id);
@@ -108,51 +85,49 @@ include '../../classes/Utils.php';
         }
 
     }catch (PDOException $exception){
-        $message[] = ['Danger'=>'Error!Please contact admin'];
-        $message[] = ['Secondary' => $exception->getMessage()];
+        $messages[] = ['Danger'=>'Error!Please contact admin'];
+        $messages[] = ['Secondary' => $exception->getMessage()];
     }
-    if(count($message) == 0){
+    if(count($messages) == 0){
     ?>
 
     <div class="row">
         <div class="col-sm-8 col-md-6">
             <div class="row">
                 <p class="col-sm-6 col-md-3"><strong>Id:</strong></p>
-                <p class="col"><?=$id?></p>
+                <p class="col"><?= $id ?></p>
             </div>
             <div class="row">
                 <p class="col-sm-6 col-md-3"><strong>Code:</strong></p>
-                <p class="col"><?=$code?></p>
+                <p class="col"><?= $code ?></p>
             </div>
             <div class="row">
                 <p class="col-sm-6 col-md-3"><strong>Name:</strong></p>
-                <p class="col"><?=$name?></p>
+                <p class="col"><?= $name ?></p>
             </div>
             <div class="row">
                 <p class="col-sm-6 col-md-3"><strong>Description:</strong></p>
-                <p class="col"><?=$description ?$description:"<i>No Description</i>"?></p>
+                <p class="col"><?= $description ?$description : "<i>No Description</i>" ?></p>
             </div>
             <div class="row">
                 <p class="col-sm-6 col-md-3"><strong>Created At:</strong></p>
-                <p class="col"><?=$createdAt?></i></p>
+                <p class="col"><?= $createdAt ?></p>
             </div>
             <div class="row">
                 <p class="col-sm-6 col-md-3"><strong>Updated At:</strong></p>
-                <p class="col"><?=$updatedAt?></p>
+                <p class="col"><?= $updatedAt ?></p>
             </div>
             <div class="row">
                 <div class="col">
-                    <form action="#" method="post">
-                        <input type='hidden' id='id' name='id' value='<?=$row->id?>'/>
-                        <a href="#" class="btn btn-info mr-1">Edit</a>
-                        <button type="submit" value="submit" class="btn btn-danger">Delete</button>
+                    <form action="delete.php" method="post">
+                        <input type='hidden' id='id' name='id' value='<?= $row->id ?>'/>
                     </form>
                 </div>
             </div>
             <?php
             }
-            if($message>0){
-                Utils::messages($message);
+            if(count($messages) > 0){
+                Utils::messages($messages);
             }
             ?>
         </div>

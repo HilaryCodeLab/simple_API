@@ -12,7 +12,6 @@ class Database
     private $dbType = 'mysql';
     private $dbName = 'cc_store';
     private $dbHost = 'localhost';
-//    private $dbHost = '127.0.0.1';
     private $dbPort = '3306';
     private $dbCharSet = 'utf8';
     private $dbUser = 'cc_store_user';

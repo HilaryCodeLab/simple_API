@@ -7,8 +7,8 @@
  * Version:     1.0.0
  * Description:
  *******************************************************/
-include '../../config/Database.php';
-include_once '../../classes/Utils.php';
+include '../../api/config/Database.php';
+include '../../api/classes/Utils.php';
 ?>
 <!DOCTYPE HTML>
 <html lang="en-AU">
@@ -38,32 +38,10 @@ include_once '../../classes/Utils.php';
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="../">Home</a>
+            <li class="nav-item active">
+                <a class="nav-link" href="../../app/">Home <span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item dropdown active">
-                <a class="nav-link dropdown-toggle" href="../product" id="navbarDropdown"
-                   role="button" data-toggle="dropdown" aria-haspopup="true"
-                   aria-expanded="false">
-                    Product  <span class="sr-only">(current)</span>
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="../product/browse.php">Browse</a>
-                    <a class="dropdown-item" href="../product/create.php">Add</a>
-                </div>
-            </li>
-
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="../categories" id="navbarDropdown"
-                   role="button" data-toggle="dropdown" aria-haspopup="true"
-                   aria-expanded="false">
-                    Category
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="../categories/browse.php">Browse</a>
-                    <a class="dropdown-item" href="../categories/create.php">Add</a>
-                </div>
-            </li>
+        </ul>
     </div>
 </nav>
 
@@ -72,7 +50,7 @@ include_once '../../classes/Utils.php';
 
     <div class="row">
         <div class="col-sm">
-            <h1>Create Category</h1>
+            <h1>Create a Category</h1>
         </div>
     </div>
 

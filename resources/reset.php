@@ -17,7 +17,7 @@ $rustart = getrusage();
 echo "\nReset started... \n";
 
 $dsn = "mysql:host=localhost;port=3306;charset=utf8";
-$pdo = new PDO($dsn, 'root', 'Secret1');
+$pdo = new PDO($dsn, 'root', '');
 
 $filePaths = [
     'cc-portfolio-1-create-db.sql',

@@ -2,16 +2,13 @@ USE 'cc_store';
 
 INSERT INTO `categories` (`id`, `code`, `name`, `description`, `created_at`, `updated_at`)
 VALUES (1, 'FSHN', 'Fashion', 'Category for anything related to fashion.',
-        '2014-06-01 00:35:07',        '2014-05-30 17:34:33'),
+        '2014-06-01 00:35:07','2014-05-30 17:34:33'),
        (2, 'ELCT', 'Electronics', 'Gadgets, drones and more.', '2014-06-01 00:35:07',
         '2014-05-30 17:34:33'),
-       (3, 'MOTR', 'Motors', 'Motor sports and more', '2014-06-01 00:35:07', '2014-05-30
-           17:34:54'),
-       (5, 'MOVY', 'Movies', 'Movie products.', '0000-00-00 00:00:00', '2016-01-08 13:27:26'),
-       (6, 'BOOK', 'Books', 'Kindle books, audio books and more.', '0000-00-00 00:00:00',
-        '2016-01-08 13:27:47'),
-       (13, 'SPRT', 'Sports', 'Drop into new winter gear.', '2016-01-09 02:24:24',
-        '2016-01-09 01:24:24');
+       (3, 'MOTR', 'Motors', 'Motor sports and more', '2014-06-01 00:35:07', '2014-05-30 17:34:54'),
+       (5, 'MOVY', 'Movies', 'Movie products.', '2014-06-01 00:35:07', '2016-01-08 13:27:26'),
+       (6, 'BOOK', 'Books', 'Kindle books, audio books and more.', '2014-06-01 00:35:07', '2016-01-08 13:27:47'),
+       (13, 'SPRT', 'Sports', 'Drop into new winter gear.', '2016-01-09 02:24:24', '2016-01-09 01:24:24');
 
 INSERT INTO `categories` (`id`, `code`, `name`, `description`, `created_at`, `updated_at`)
 VALUES (21, 'DUCK', 'Ducks', 'Duck category - including calls, .',

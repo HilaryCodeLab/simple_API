@@ -15,7 +15,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>Retail App | Categories | Browse</title>
+    <title>Retail App | Products | Browse</title>
 
     <!-- CSS required -->
     <!-- Bootstrap 4.x -->
@@ -23,11 +23,12 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <!-- FontAwesome 5.x -->
     <link rel="stylesheet" href="/app/assets/fa/css/all.min.css">
+
 </head>
 <body>
 <!-- Navigation bar -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="./">Demo APP</a>
+    <a class="navbar-brand" href="../">Retail App</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse"
             data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
             aria-expanded="false" aria-label="Toggle navigation">
@@ -48,8 +49,7 @@
 
     <div class="row">
         <div class="col-sm">
-            <h1>Browse Categories</h1>
-            <p><a href="../categories/create.php" class="btn btn-success">Create</a></p>
+            <h1>Browse Products</h1>
         </div>
     </div>
 
@@ -59,75 +59,41 @@
 
     $database = new Database();
     $conn = $database->getConnection();
-    $query = "select id, code, name, description 
-                  from cc_store.categories 
-                  order by id DESC";
+    $query = "SELECT 
+                    c.name as category_name, p.id, p.name, p.description, 
+                p.price,  p.category_id, p.created_at, p.updated_at
+            FROM cc_store.products AS p
+                LEFT JOIN cc_store.categories AS c
+                    ON p.category_id = c.id
+            ORDER BY p.created_at DESC;";
     $stmt = $conn->prepare($query);
     $stmt->execute();
 
-    $totalRecords = $stmt->rowCount();
+    $num = $stmt->rowCount();
 
-    // set the page records to 5
-    $pageRecords = 5;
-    $displayPages = (int)ceil($totalRecords/$pageRecords);
-
-    $activePage = 1;
-
-    // If user request a page number greater than $displayPages, set $activePage to the maximum pages number
-    if (isset($_GET['page']) && is_numeric($_GET['page']) && (int)$_GET['page'] >0 ){
-        if ((int)$_GET['page'] > $displayPages){
-            $activePage = $displayPages;
-        } else {$activePage = (int)$_GET['page']; }
-    }
-
-    // exclude records depending on which page the user is
-    $skipRecords = ($activePage - 1) * $pageRecords;
-
-
-    if ($pageRecords > 0 && $skipRecords >= 0) {
-
-        $query2 = "SELECT id, code, name, description FROM cc_store.categories ORDER BY id DESC LIMIT :skipRecords, :pageRecords";
-
-        $stmt2 = $conn->prepare($query2);
-        $stmt2->bindParam(':skipRecords', $skipRecords, PDO::PARAM_INT);
-        $stmt2->bindParam(':pageRecords', $pageRecords, PDO::PARAM_INT);
-    } else{
-        $query2 = "SELECT id, code, name, description FROM categories ORDER BY id DESC";
-        $stmt2 = $conn->prepare($query2);
-    }
-
-    $stmt2->execute();
-
-    $num = $stmt2->rowCount();
-
-    if ($num > 0){
-    ?>
+    if ($num > 0){?>
     <div class="row">
         <div class="col-sm">
             <table class="table">
                 <thead>
                 <tr>
                     <th>Id</th>
-                    <th>Code</th>
+                    <th>Category</th>
                     <th>Name</th>
+                    <th>Price</th>
                     <th>Description</th>
-                    <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
                 <?php
-                while($row = $stmt2->fetch(PDO::FETCH_OBJ)) {
+                while($row = $stmt->fetch(PDO::FETCH_OBJ)) {
                 ?>
                     <tr>
                         <td><?=$row->id?></td>
-                        <td><?=$row->code?></td>
+                        <td><?=$row->category_name?></td>
                         <td><?=$row->name?></td>
+                        <td><?=$row->price?></td>
                         <td><?=$row->description?></td>
-                        <td>
-                            <a href="../categories/read.php?id=<?=$row->id?>" class="btn btn-info mr-1">Read</a>
-                            <a href="../categories/update.php?id=<?=$row->id?>" class="btn btn-warning mr-1">Update</a>
-                            <a href="../categories/delete.php?id=<?=$row->id?>" class="btn btn-danger">Delete</a>
-                        </td>
                     </tr>
                 <?php
                   }
@@ -138,28 +104,14 @@
                 $messages[] = ['info'=>'no info found'];
                 Utils::messages($messages);
                  }?>
-    </div>
-    </div>
-    <div class="row">
-        <nav aria-label="Page navigation example">
-            <ul class="pagination">
-                <li class="page-item <?= $activePage <= 1 ? 'disabled' : '' ?>"><a class="page-link" href="<?= "browse.php?page=".($activePage - 1 < 1 ? $activePage : $activePage - 1) ?>">Previous</a></li>
 
-                <?php
-                for($i = 0; $i < $displayPages; $i++){?>
-                    <li class="<?= ($activePage === $i+1) ? "page-item active" : "page-item" ?>">
-                        <a class="page-link" href="<?= "browse.php?page=".($i+1)?>"><?= $i+1 ?></a>
-                    </li>
-                    <?php
-                }
-                ?>
-
-                <li class="page-item <?= $activePage >= $displayPages ? 'disabled' : ''?>">
-                    <a class="page-link" href="<?= "browse.php?page=".($displayPages) ?>">Next</a>
-                </li>
-            </ul>
-        </nav>
     </div>
+    </div>
+
+
+
+
+
 </main> <!-- end .container -->
 
 <!-- JavaScript that is required -->

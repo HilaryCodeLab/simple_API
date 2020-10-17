@@ -2,6 +2,7 @@
 <project version="4">
   <component name="SqlDialectMappings">
     <file url="file://$PROJECT_DIR$/api/classes/Category.php" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/app/categories/browse.php" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/resources/cc-portfolio-2-create-tables.sql" dialect="MariaDB" />
   </component>
 </project>

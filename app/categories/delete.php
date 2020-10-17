@@ -8,8 +8,8 @@
  * Description:
  *******************************************************/
 
-include '../../config/Database.php';
-include_once '../../classes/Utils.php';
+include '../../api/config/Database.php';
+include '../../api/classes/Utils.php';
 ?>
 
 <!DOCTYPE HTML>
@@ -40,32 +40,10 @@ include_once '../../classes/Utils.php';
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="../">Home</a>
+            <li class="nav-item active">
+                <a class="nav-link" href="../../app/">Home <span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item dropdown active">
-                <a class="nav-link dropdown-toggle" href="../product" id="navbarDropdown"
-                   role="button" data-toggle="dropdown" aria-haspopup="true"
-                   aria-expanded="false">
-                    Product  <span class="sr-only">(current)</span>
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="../product/browse.php">Browse</a>
-                    <a class="dropdown-item" href="../product/create.php">Add</a>
-                </div>
-            </li>
-
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="../categories" id="navbarDropdown"
-                   role="button" data-toggle="dropdown" aria-haspopup="true"
-                   aria-expanded="false">
-                    Category
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="../categories/browse.php">Browse</a>
-                    <a class="dropdown-item" href="../categories/create.php">Add</a>
-                </div>
-            </li>
+        </ul>
     </div>
 </nav>
 
@@ -74,94 +52,89 @@ include_once '../../classes/Utils.php';
 
     <div class="row">
         <div class="col-sm">
-            <h1>Delete Category</h1>
+            <h1>Delete a Category</h1>
         </div>
     </div>
 
 <?php
-//Before performing delete query, read the data you are about to delete
-//get passed the parameter value of record id.
     $messages = [];
     $database = new Database();
     $conn = $database->getConnection();
+    if (!isset($_POST['id']) && !isset($_GET['id'])) {
+        $messages[] = ['Danger' => 'Record Id not found.'];
+    }
+    else {
+        if (isset($_GET['id'])) {
+            $id = $_GET['id'];
+        }
 
-    if(isset($_POST['id'])){
-
-        $id = $_POST['id'];
-        $performDelete = $_POST['performDelete']??false;
-
-        if(!$performDelete){
-            try{
-                $query = "select id, code, name, description from 
-                            cc_store.categories where id = :ID
-                            limit 0,1";
+        $performDelete = $_POST['performDelete'] ?? false;
+        if (!$performDelete) {
+            try {
+                $query = "SELECT id, code, name, description FROM cc_store.categories WHERE id = :ID LIMIT 0,1";
                 $stmt = $conn->prepare($query);
-                $stmt->bindParam(":ID",$id, PDO::PARAM_INT);
+                $stmt->bindParam(":ID", $id, PDO::PARAM_INT);
                 $stmt->execute();
                 $row = $stmt->fetch(PDO::FETCH_OBJ);
-?>
-<!--html from here will display the data we wanted to delete-->
-<table class="table table-hover table-responsive table-bordered">
-    <tr>
-        <td>Id</td>
-        <td><?= Utils::sanitize($row->id) ?></td>
-    </tr>
-    <tr>
-        <td>Code</td>
-        <td><?= Utils::sanitize($row->code) ?></td>
-    </tr>
-    <tr>
-        <td>Name</td>
-        <td><?= Utils::sanitize($row->name) ?></td>
-    </tr>
-    <tr>
-        <td>Description</td>
-        <td><?= Utils::sanitize($row->description) ?></td>
-    </tr>
-    <tr>
-        <td></td>
-        <td>
-            <form action="delete.php" method="post">
-                <input type="hidden" id="id" name="id" value="<?= $row->id?>"/>
-                <input type="hidden" id="performDelete" name="performDelete" value="<?= $row->id?>"/>
-                <button type="submit" value="submit" class="btn btn-danger">
-                    Confirm Delete
-                </button>
-            </form>
-        </td>
-    </tr>
-</table>
-   <?php
-            }
-            catch (PDOException $exception){
-                $messages[] = ["Danger"=>"Error locating the product. Please contact Admin"];
-                $messages[] = ["Secondary"=>$exception->getMessage()];
-            }
-
-        }else if ($id === $performDelete){
-//            delete record
-            try {
-                $query = "Delete from cc_store.categories where id = :deleteThis";
-                $stmt = $conn->prepare($query);
-                $stmt->execute();
-            }
-            catch (PDOException $exception){
-                $messages[] = ["Danger"=>"Error deleting the product. Please contact Admin"];
-                $messages[] = ["Secondary"=>$exception->getMessage()];
+                ?>
+                <!--we have our html table here where the record will be displayed-->
+                <table class='table table-hover table-responsive table-bordered'>
+                    <tr>
+                        <td>Code</td>
+                        <td><?= Utils::sanitize($row->code) ?></td>
+                    </tr>
+                    <tr>
+                        <td>Name</td>
+                        <td><?= Utils::sanitize($row->name) ?></td>
+                    </tr>
+                    <tr>
+                        <td>Description</td>
+                        <td><?= Utils::sanitize($row->description) ?></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <form action='delete.php' method='post'>
+                                <input type='hidden' id='id' name='id'
+                                       value="<?= $row->id ?>"/>
+                                <input type='hidden' id='performDelete' name='performDelete'
+                                       value="<?= $row->id ?>"/>
+                                <button type='submit' value='submit' class='btn btn-danger'>
+                                    Confirm Delete
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                </table>
+    <?php
+            } // show error
+            catch (PDOException $exception) {
+                $messages[] = ['Danger' => 'Error locating the category. Please contact Admin.'];
+                $messages[] = ['Secondary ' => $exception->getMessage()];
             }
         }
-    }
-    else{
-        $messages[] = ["Danger"=>"Sorry, no direct access to this page"];
+        try {
+            $query = "DELETE FROM cc_store.categories WHERE id = :deleteThis";
+            $stmt = $conn->prepare($query);
+            $stmt->bindParam(':deleteThis', $id, PDO::PARAM_INT);
+            $stmt->execute();
+            $messages[] = ['Success' => "Category {$performDelete} deleted."];
+        } // show error
+        catch (PDOException $exception) {
+            $messages[] = ['Danger' => 'Error deleting the category. Please contact Admin.'];
+            $messages[] = ['Secondary ' => $exception->getMessage()];
+        }
+
+        if (count($messages) > 0) {
+            Utils::messages($messages);
+        }
 
     }
-    if (count($messages)>0){
-        Utils::messages($messages);
-    }
-?>
-<p>
-    <a href="browse.php" class="btn btn-info">Back</a>
-</p>
+
+    ?>
+    <p>
+        <a href="browse.php" class="btn btn-info">Back</a>
+    </p>
 </main> <!-- end .container -->
 
 <!-- JavaScript that is required -->
